@@ -25,6 +25,7 @@ export class AppComponent {
 
   // for charting
   chartData: Array<any>;
+  usStates: Array<any>;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
   private chart: any;
   private width: number;
@@ -52,12 +53,19 @@ export class AppComponent {
 
   constructor(private http: Http, private tdDataService: TdDataTableService, private dialog: MdDialog) {
     // get housing data
-    this.http.get('/immersion-be/realestate')
-    // this.http.get('./convertcsv.json')
+    // this.http.get('/immersion-be/realestate')
+    this.http.get('./convertcsv.json')
       .map(response => response.json())
       .subscribe(res => {
         this.housingData = res;
         this.filter();
+      });
+
+    this.http.get('./usStates.json')
+      .map(response => response.json().features)
+      .subscribe(res => {
+        this.usStates = res;
+        console.log(this.usStates);
       });
 
     this.http.get('/immersion-be/realestate/count')
@@ -108,6 +116,15 @@ export class AppComponent {
     // remove existing
     d3.select("svg").remove();
 
+    // var color = d3.scaleQuantize()
+    //   .range([
+    //     "rgb(237,248,233)",
+    //     "rgb(186,228,179)",
+    //     "rgb(116,196,118)",
+    //     "rgb(49,163,84)",
+    //     "rgb(0,109,44)"
+    //   ]);
+
     let element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -115,12 +132,31 @@ export class AppComponent {
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight);
 
+    // chart plot area
+    this.chart = svg.append('g')
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+
     var projection = d3.geoAlbersUsa()
                    .translate([this.width/2, this.height/2])
     var path = d3.geoPath().projection(projection);
 
+      this.chart.selectAll("path")
+      .data(this.usStates)
+      .enter().append("path")
+      .attr("d", path)
+      .style('stroke', 'black')
+      .style('fill', function (d) {
+        // get data value
+        return "#ccc";
+        // if (value) {
+        //   // if value exists
+        //   return color(value);
+        // } else {
+        //   // if value is undefined...
+        //   return "#ccc";
+        // }
+      });
   }
-
   getTooltip(name: string) {
     for (let i = 0; i < this.columns.length; i++) {
         if (this.columns[i].name === name) {

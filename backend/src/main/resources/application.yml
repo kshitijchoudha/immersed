@@ -22,7 +22,10 @@ ribbon:
   eureka:
     enabled: true
 
-    
+redis:
+   port: 6379
+   host: redis
+       
 spring:
   data:
     mongodb:

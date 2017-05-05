@@ -10,9 +10,7 @@ public class RealEstateData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
-	
-	
+	private String realEstateId;	
 	private String street;
 	private String city;
 	private int zip;
@@ -46,12 +44,17 @@ public class RealEstateData implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-	public String getId() {
-		return id;
+	
+	
+	
+	public String getRealEstateId() {
+		return realEstateId;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setRealEstateId(String realEstateId) {
+		this.realEstateId = realEstateId;
 	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -127,7 +130,7 @@ public class RealEstateData implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RealEstateData [id=" + id + ", street=" + street + ", city=" + city + ", zip=" + zip + ", state="
+		return "RealEstateData [realEstateId=" + realEstateId + ", street=" + street + ", city=" + city + ", zip=" + zip + ", state="
 				+ state + ", beds=" + beds + ", baths=" + baths + ", sq__ft=" + sq__ft + ", type=" + type
 				+ ", sale_date=" + sale_date + ", price=" + price + ", latitude=" + latitude + ", longitude="
 				+ longitude + "]";

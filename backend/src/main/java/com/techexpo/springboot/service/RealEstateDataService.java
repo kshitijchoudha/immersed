@@ -12,13 +12,13 @@ import com.techexpo.springboot.model.response.ResponseObject;
  */
 public interface RealEstateDataService {
 
-	public ResponseObject getData();
+	public ResponseObject getAllRealEstateData();
 	
-	public RealEstateData saveData(RealEstateData housingData);
+	public RealEstateData saveRealEstate(RealEstateData realEstateData);
 	
-	public boolean updateData(RealEstateData housingData);
+	public boolean updateRealEstate(RealEstateData realEstateData);
 	
-	public boolean deleteDataById(String id);
+	public boolean deleteByRealEstateId(String id);
 	
-	public RealEstateData findDataById(String id);
+	public RealEstateData findByRealEstateId(String id);
 }

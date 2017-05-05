@@ -22,8 +22,8 @@ public class RedisApplicationConfig {
 	@Bean
 	public JedisConnectionFactory connectionFactory() {
 		JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
-		connectionFactory.setHostName("redis");
-		connectionFactory.setPort(6379);
+		//connectionFactory.setHostName("redis");
+		//connectionFactory.setPort(6379);
 		return connectionFactory;
 	}  
 	

@@ -4,6 +4,7 @@ import { ITdDataTableColumn, IPageChangeEvent, TdDataTableService, ITdDataTableS
 import { MdDialog, MdDialogRef, MdTabChangeEvent, MdSelectChange } from '@angular/material';
 import { CreditsComponent } from './credits/credits.component';
 import * as d3 from "d3";
+import * as topojson from "topojson";
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent {
   // for charting
   chartData: Array<any>;
   usStates: Array<any>;
+  california: any;
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20 };
   private chart: any;
   private width: number;
@@ -53,8 +55,8 @@ export class AppComponent {
 
   constructor(private http: Http, private tdDataService: TdDataTableService, private dialog: MdDialog) {
     // get housing data
-    // this.http.get('/immersion-be/realestate')
-    this.http.get('./convertcsv.json')
+    this.http.get('/immersion-be/realestate')
+    // this.http.get('./convertcsv.json')
       .map(response => response.json())
       .subscribe(res => {
         this.housingData = res;
@@ -67,6 +69,10 @@ export class AppComponent {
         this.usStates = res;
         console.log(this.usStates);
       });
+
+    this.http.get('./ca.json')
+    .map(response => response.json())
+    .subscribe(res => this.california = res);
 
     this.http.get('/immersion-be/realestate/count')
       .map(response => response.json())
@@ -124,6 +130,12 @@ export class AppComponent {
     //     "rgb(49,163,84)",
     //     "rgb(0,109,44)"
     //   ]);
+
+    let state = topojson.feature(this.california, this.california.objects.state);
+    let counties = topojson.feature(this.california, this.california.objects.counties).features;
+
+    console.log(state);
+    console.log(counties);
 
     let element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;

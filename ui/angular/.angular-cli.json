@@ -23,7 +23,9 @@
         "styles.scss",
         "../node_modules/@covalent/core/common/platform.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/topojson/dist/topojson.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

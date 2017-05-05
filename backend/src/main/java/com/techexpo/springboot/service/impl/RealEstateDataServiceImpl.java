@@ -44,8 +44,18 @@ public class RealEstateDataServiceImpl implements RealEstateDataService {
 
 	public void pushDataToRedis(List<RealEstateData> realEstateDataList) {
 		for (RealEstateData data: realEstateDataList) {
-			pushRealEstataDataTORedis(data);
+			if(!findDatainRedisCache(data))
+				pushRealEstataDataTORedis(data);
 		}
+	}
+	
+	private boolean findDatainRedisCache(RealEstateData data) {
+		String existingData = redisRepository.findDataById(data.getRealEstateId());
+		if(null != existingData ) {
+			LOGGER.info("-----------------------Exisitng Data:: " + existingData);
+			return true;
+		} 
+		return false;
 	}
 	
 	private void findAllRealEstateData() {

@@ -42,4 +42,8 @@ public class RedisRepository {
 		LOGGER.info("reading data from Redis cache....");
 		return hashOps.entries(KEY);
 	}
+	
+	public String findDataById(String id) {
+		return (String) hashOps.get(KEY, id);
+	}
 }

@@ -48,7 +48,7 @@ public class RealEstateController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseObject getAllRealEstateData(){
       LOGGER.info("Getting list of real estate data");
-      atomicInteger.incrementAndGet();
+      //atomicInteger.incrementAndGet();
       ResponseObject responseObject = realEstateDataService.getAllRealEstateData();
 	  LOGGER.info(responseObject.toString());
       return responseObject;
@@ -97,7 +97,8 @@ public class RealEstateController {
 	@RequestMapping(method=RequestMethod.GET, value="/count")
 	public long count () {
 		LOGGER.info("Getting counter....." + atomicInteger.get());
-		return atomicInteger.get();
+		//return atomicInteger.get();
+		return atomicInteger.incrementAndGet();
 	}
 	
 }

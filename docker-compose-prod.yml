@@ -1,0 +1,126 @@
+version: "3"
+
+services:
+
+  immersion-be:
+    image: kshitijchoudha/immersion-be
+    ports:
+      - 8082:8082
+    links:
+      - discovery
+      - redis
+      - mongo
+    depends_on:
+      - redis
+      - mongo
+      - discovery
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 3
+#    logging:
+#       driver: syslog
+#       options:
+#         syslog-address: tcp://35.167.213.21:5000
+
+  immersion-fe:
+    image: kshitijchoudha/immersion-fe
+    ports:
+      - 8080:8080
+    links:
+      - discovery
+    depends_on:
+      - immersion-be
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 3
+
+  dashboard:
+    image: kshitijchoudha/immersion-dashboard
+    ports:
+      - 7979:7979
+    depends_on:
+      - immersion-fe
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  discovery:
+    image: kshitijchoudha/immersion-eureka
+    ports:
+      - 8761:8761
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  redis:
+    image: redis:3.2-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-data/:/data/db
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  redis-commander:
+    image: tenstartups/redis-commander
+    command: --redis-host redis
+    ports:
+      - 8083:8081
+    links:
+      - redis:redis
+    depends_on:
+      - redis
+    networks:
+      - swarm-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  swarm-network:
+    external: true

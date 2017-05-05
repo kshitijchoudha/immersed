@@ -21,7 +21,7 @@ public class RealEstateData implements Serializable {
 	private int baths;
 	private double sq__ft;
 	private String type;
-	private Date sale_date;
+	private String sale_date;
 	private int price;
 	private double latitude;
 	private double longitude;
@@ -31,7 +31,7 @@ public class RealEstateData implements Serializable {
 	}
 	
 	public RealEstateData(String street, String city, int zip, String state, int beds, int baths, double sq__ft,
-			String type, Date sale_date, int price, double latitude, double longitude) {
+			String type, String sale_date, int price, double latitude, double longitude) {
 		super();
 		this.street = street;
 		this.city = city;
@@ -100,10 +100,10 @@ public class RealEstateData implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Date getSale_date() {
+	public String getSale_date() {
 		return sale_date;
 	}
-	public void setSale_date(Date sale_date) {
+	public void setSale_date(String sale_date) {
 		this.sale_date = sale_date;
 	}
 	public int getPrice() {

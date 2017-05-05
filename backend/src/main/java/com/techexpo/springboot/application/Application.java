@@ -37,7 +37,6 @@ public class Application {
 	public static void main(String[] args) throws InterruptedException {
 		LOGGER.info("Starting Tech Imersion Spring Boot Application ..................................");
 		SpringApplication.run(Application.class, args);
-		//ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(RedisApplicationConfig.class);
 	}
 
 }

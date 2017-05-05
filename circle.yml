@@ -1,0 +1,24 @@
+machine:
+  node:
+    version: 6.9.0
+  services:
+    - docker
+dependencies:
+  pre:
+    - npm install @angular/cli@latest -g
+    - ./buildui.sh
+general:
+  artifacts:
+    - "ui/target/immersion_ui-0.0.1-SNAPSHOT.jar"
+    - "backend/target/SpringBootProj-1.0-SNAPSHOT.jar"
+    - "hystrix-dashboard/target/hystrix-dashboard-0.0.1-SNAPSHOT.jar"
+    - "service-discovery/target/service-discovery-0.0.1-SNAPSHOT.jar"
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKERHUB_EMAIL -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+      - docker push kshitijchoudha/immersion-be
+      - docker push kshitijchoudha/immersion-fe
+      - docker push kshitijchoudha/immersion-dashboard
+      - docker push kshitijchoudha/immersion-eureka

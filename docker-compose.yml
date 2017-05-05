@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+
+  immersion-be:
+    image: kshitijchoudha/immersion-be
+    ports:
+      - 8082:8082
+    links:
+      - discovery
+      - redis
+      - mongo
+#    logging:
+#       driver: syslog
+#       options:
+#         syslog-address: tcp://35.167.213.21:5000
+
+  immersion-fe:
+    image: kshitijchoudha/immersion-fe
+    ports:
+      - 8080:8080
+    links:
+      - discovery
+
+  dashboard:
+    image: kshitijchoudha/immersion-dashboard
+    ports:
+      - 7979:7979
+
+  discovery:
+    image: kshitijchoudha/immersion-eureka
+    ports:
+      - 8761:8761
+
+  redis:
+    image: redis:3.2-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-data/:/data/db
+
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+
+  redis-commander:
+    image: tenstartups/redis-commander
+    command: --redis-host redis
+    ports:
+      - 8083:8081
+    links:
+      - redis:redis

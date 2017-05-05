@@ -1,0 +1,56 @@
+<!--<h1>
+  {{title}}
+</h1>-->
+<md-toolbar color="primary">
+  <marquee behavior="alternate">CMFT Immersion Day</marquee>
+  <span class="spacer"></span>
+  <button md-icon-button [mdMenuTriggerFor]="menu">
+      <md-icon>more_vert</md-icon>
+  </button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item (click)="showCredit()">
+        <md-icon>account_circle</md-icon>
+        <span>Credits</span>
+    </button>
+  </md-menu>
+</md-toolbar>
+<md-tab-group (selectChange)="onTabChange($event)">
+  <md-tab label="Housing Data">
+    <td-data-table
+      [data]="filteredData"
+      [columns]="columns"
+      [selectable]="false"
+      [multiple]="false"
+      [sortable]="true"
+      [sortOrder]="'ASC'"
+      (sortChange)="sort($event)">
+    </td-data-table>
+    <div layout="row">
+      <div flex="20" style="margin: auto; padding-left: 10px;">
+        <span *ngIf="counter" hide-xs>Counter:</span>
+        <span>{{counter}}</span>
+      </div>
+      <td-paging-bar *ngIf="housingData" flex="80" #pagingBar
+        [pageSizes]="[10, 15, 20, 50]"
+        [total]="filteredTotal"
+        (change)="page($event)">
+        <span td-paging-bar-label hide-xs>Row per page:</span>
+          {{pagingBar.range}}
+        <span hide-xs>of {{pagingBar.total}}</span>
+      </td-paging-bar>
+    </div>
+  </md-tab>
+  <md-tab label="Chart">
+    <div layout="row" layout-margin>
+      <md-select flex="30" [ngModel]="selectedValue" name="xaxis"
+        (change)="selectionChange($event)">
+        <md-option *ngFor="let column of columns" [value]="column.name">
+          {{column.name}}
+        </md-option>
+      </md-select>
+    </div>
+    <div layout="row" layout-margin>
+      <div class="d3-chart" #chart></div>
+    </div>
+  </md-tab>
+</md-tab-group>

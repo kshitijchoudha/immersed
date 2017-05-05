@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  
+eureka:
+  client:
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+  instance:
+    preferIpAddress: true
+    
+immersion-be:
+  ribbon:
+    eureka:
+      enabled: true

@@ -144,7 +144,7 @@ export class AppComponent {
       .data(this.usStates)
       .enter().append("path")
       .attr("d", path)
-      .style('stroke', 'black')
+      .style('stroke', 'white')
       .style('fill', function (d) {
         // get data value
         return "#ccc";
@@ -156,6 +156,21 @@ export class AppComponent {
         //   return "#ccc";
         // }
       });
+
+      svg.selectAll('circle')
+               .data(this.housingData)
+               .enter().append('circle')
+               .attr('cx', function(d) {
+                        return projection([d.longitude, d.latitude])[0];
+                 })
+               .attr('cy', function(d) {
+                    return projection([d.longitude, d.latitude])[1];
+               })
+               .attr('r', function(d) {
+                    return 3.5;
+                 })
+               .style('fill', 'yellow')
+               .style('opacity', 0.75);
   }
   getTooltip(name: string) {
     for (let i = 0; i < this.columns.length; i++) {

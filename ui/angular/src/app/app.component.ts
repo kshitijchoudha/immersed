@@ -54,7 +54,7 @@ export class AppComponent {
     // get housing data
     this.http.get('/immersion-be/realestate')
     // this.http.get('./convertcsv.json')
-      .map(response => response.json())
+      .map(response => response.json().objectList)
       .subscribe(res => {
         this.housingData = res;
         this.filter();
